@@ -15,7 +15,7 @@ const ProductSlice = createSlice({
     extraReducers:builder=>{
         builder
         .addCase(getProductsAsync.fulfilled,(state,action)=>{
-            state.products.push(action.payload)
+            state.products=action.payload;
         })
     }
 })
@@ -27,7 +27,7 @@ export const getProductsAsync = createAsyncThunk(
         try {
             const res = await axios.get(url);
             return res.data;
-        } catch (error) {
+        }catch (error) {
             return rejectWithValue(error.message);
         }
     }

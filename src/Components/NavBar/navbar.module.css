@@ -6,8 +6,8 @@
     padding: 0vh 2vw;
     font-size: 20px;
     font-weight: 600;
-    background-color: #80AF81;
-    color: #1A5319;
+    background-color: #F6F5F2;
+    box-shadow: 0 2px 8px 0 rgba(33, 39, 71, 0.4);
 }
 .navbar .sections{
     display: flex;
@@ -18,6 +18,25 @@
 }
 .navbar .sections div{
     cursor: pointer;
+}
+.navbar .sections .cart{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+.navbar .sections .cart img{
+    height: 18px;
+}
+.navbar .sections .cart p{
+    margin: 0px;
+    border-radius: 50px;
+    position: absolute;
+    top: -10px;
+    left: 52px;
+    background-color: orange;
+    padding: 0px 7px;
+    font-size: 16px;
 }
 .navbar .sections .addbtn{
     display: flex;
@@ -34,4 +53,11 @@
 }
 .navbar .profile img{
     height: 4vh;
+}
+@media (max-width: 768px) {
+    .navbar .sections .cart p {
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

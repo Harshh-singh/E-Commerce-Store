@@ -1,4 +1,4 @@
-.card{
+.cartCard{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,30 +9,31 @@
     overflow: hidden;
     box-shadow: 0 2px 8px 0 rgba(33, 39, 71, 0.4);
     background-color: white;
+    padding: 4vh 2vh;
 }
-.card .details{
+.cartCard .details{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.card span{
+.cartCard span{
     color: grey;
 }
-.card .imgContainer{
-    height: 40%;
+.cartCard .imgContainer{
+    height: 60%;
     overflow: hidden;
     border-radius: 10px;
 }
-.card img{
+.cartCard img{
     height: 100%;
     width: 100%;
+    object-fit: contain;
 }
-.card div{
+.cartCard div{
     margin: 0.5vw;
 }
-.card button{
-    height: 10%;
-    width: 60%;
+.cartCard button{
+    padding: 8px;
     background-color: #F0EBE3;
     color: gray;
     border: none;
@@ -40,20 +41,8 @@
     transition: transform 0.2s ease-in-out;
     cursor: pointer;
     border-radius: 2px;
+    font-size: 15px;
 }
-.card button:hover{
-    transform: scale(1.1);
-}
-.card .editBtn{
-    display: flex;
-    gap: 20px;
-}
-.card .editBtn img{
-    height: 20px;
-    width: 20px;
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
-}
-.card .editBtn img:hover{
+.cartCard button:hover{
     transform: scale(1.1);
 }
