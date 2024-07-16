@@ -1,9 +1,15 @@
 import styles from './productCard.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function Card({product}) {
+    const navigate = useNavigate();
+
+    const redirect = (link)=>{
+        navigate(link);
+    }
 
     return(
-        <div className={styles.card}>
+        <div className={styles.card} onClick={()=>redirect("/productDetails")}>
             <div className={styles.imgContainer}>
                 <img src={product.image} alt="itemImg" />
             </div>        

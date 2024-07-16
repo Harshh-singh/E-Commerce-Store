@@ -32,6 +32,18 @@
 .cartCard div{
     margin: 0.5vw;
 }
+.cartCard .quantity{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.cartCard .quantity img{
+    height: 15px;
+    cursor: pointer;
+}
+.cartCard .quantity span{
+    font-weight: 600;
+}
 .cartCard button{
     padding: 8px;
     background-color: #F0EBE3;

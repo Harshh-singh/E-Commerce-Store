@@ -9,6 +9,12 @@ function CartCard() {
             <div className={styles.details}>
                 <h3>{'product.name'}</h3>
                 <span>${'product.price'}</span>
+
+                <div className={styles.quantity}>
+                    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828899.png" alt="minus" className={styles.incImg}/>
+                    <span>{2}</span>
+                    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828919.png" alt="plus" className={styles.incImg}/>
+                </div>
             </div>
             <button type="submit">Remove From Cart</button>        
         </div>

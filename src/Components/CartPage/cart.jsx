@@ -6,10 +6,10 @@ function Cart() {
         <div className={styles.cart}>
             <h1>My Cart</h1>
             <div className={styles.priceContainer}>
-                    <span>Total Price:- ${20}/-</span>                    
+                    <h3>Summery Order</h3>
+                    <span>Total Price: ${20}/-</span>                    
                       <button 
                         type="submit"
-                        onClick={'Purchase'}
                       >Purchase</button>                    
             </div>
             <div className={styles.cartItems}>

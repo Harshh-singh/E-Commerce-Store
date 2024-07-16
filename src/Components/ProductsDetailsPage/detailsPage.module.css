@@ -1,0 +1,62 @@
+.detailsCard{
+    border: 1px solid black;
+    display: flex;
+    gap: 1vw;
+    align-items: center;
+    padding: 0px 8px;
+    height: 30vh;
+    width: 50vw;
+    margin: 4vh auto;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+}
+.detailsCard .imgContainer{
+    height: 80%;
+    object-fit: contain;
+}
+.detailsCard .imgContainer img{
+    height: 100%;
+}
+.detailsCard .aboutProduct{
+    height: 80%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    padding: 0vh 2vh;
+    gap: 4vh;
+}
+.detailsCard .aboutProduct h2{
+    margin-top: 0px;
+}
+.detailsCard .aboutProduct span{
+    font-size: 18px;
+    color: gray;
+}
+.detailsCard .aboutProduct .editbtn{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.detailsCard .aboutProduct .editbtn span{
+    font-size: 20px;
+}
+.detailsCard .aboutProduct .editbtn img{
+    height: 20px;
+}
+.detailsCard .productDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 12vh;
+    height: 80%;
+    width: 40%;
+    font-size: 18px;
+    color: gray;
+}
+.detailsCard .productDetails .deletebtn{
+    display: flex;
+    gap: 5px
+}
+.detailsCard .productDetails .deletebtn img{
+    height: 20px;
+}

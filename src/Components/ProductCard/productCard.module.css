@@ -9,6 +9,10 @@
     overflow: hidden;
     box-shadow: 0 2px 8px 0 rgba(33, 39, 71, 0.4);
     background-color: white;
+    transition: transform 0.2s ease-in-out;
+}
+.card:hover{
+    transform: scale(1.1);
 }
 .card .details{
     display: flex;
@@ -19,7 +23,7 @@
     color: grey;
 }
 .card .imgContainer{
-    height: 40%;
+    height: 46%;
     overflow: hidden;
     border-radius: 10px;
 }
