@@ -4,13 +4,14 @@
     gap: 1vw;
     align-items: center;
     padding: 0px 8px;
-    height: 32vh;
+    height: 36vh;
     width: 50vw;
     margin: 4vh auto;
     background-color: white;
     border-radius: 10px;
     border: none;
     box-shadow: 0 2px 8px 0 rgba(33, 39, 71, 0.4);
+    overflow: hidden;
 }
 .detailsCard .imgContainer{
     height: 80%;
@@ -23,11 +24,15 @@
     height: 80%;
     width: 20%;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     padding: 0vh 2vh;
     gap: 4vh;
 }
-.detailsCard .aboutProduct h2{
+.detailsCard .aboutProduct .nameContainer h2{
+    height: 18%;
+}
+.detailsCard .aboutProduct .nameContainer h2{
     margin-top: 0px;
 }
 .detailsCard .aboutProduct span{
@@ -59,13 +64,18 @@
 .detailsCard .productDetails {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 12vh;
     height: 80%;
     width: 40%;
     font-size: 18px;
     color: gray;
 }
-.detailsCard .productDetails .deletebtn{
+.detailsCard .productDetails .deleteAddBtn{
+    display: flex;
+    justify-content: space-between;
+}
+.detailsCard .productDetails .deleteAddBtn .btn{
     display: flex;
     gap: 5px;
     justify-content: center;
@@ -77,9 +87,9 @@
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
-.detailsCard .productDetails .deletebtn:hover{
+.detailsCard .productDetails .deleteAddBtn .btn:hover{
     transform: scale(1.1);
 }
-.detailsCard .productDetails .deletebtn img{
+.detailsCard .productDetails .deleteAddBtn .btn img{
     height: 20px;
 }

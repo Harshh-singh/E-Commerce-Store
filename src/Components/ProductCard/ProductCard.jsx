@@ -7,18 +7,17 @@ function Card({product}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const redirect = (link)=>{
-        navigate(link);
+    const redirect = (link, product)=>{
+        navigate(link,{state:product});
     }
 
     const handleAddToCart = (e,product)=>{
         e.stopPropagation();
-        console.log(product);
         dispatch(addToCartAsync(product));
     }
 
     return(
-        <div className={styles.card} onClick={()=>redirect("/productDetails")}>
+        <div className={styles.card} onClick={()=>redirect("/productDetails", product)}>
             <div className={styles.imgContainer}>
                 <img src={product.image} alt="itemImg" />
             </div>        

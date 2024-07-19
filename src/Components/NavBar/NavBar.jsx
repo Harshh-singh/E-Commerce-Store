@@ -1,12 +1,21 @@
 import styles from './navbar.module.css';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { totalCartItemsAsync } from '../../Redux/Reducers/productReducer';
+import { useEffect } from 'react';
 
 function NavBar() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const noOfCartItems = useSelector((state)=>state.productReducer.totalCartItems);
 
     const navigateTo = (link) =>{
         navigate(link);
-    }
+    };
+
+    useEffect(()=>{
+        dispatch(totalCartItemsAsync());
+    },[dispatch]);
 
     return(
         <>
@@ -15,7 +24,7 @@ function NavBar() {
                 <span onClick={()=>navigateTo("/")}>ECommerce</span>
                 <span onClick={()=>navigateTo("/")}>Products</span>
                 <div className={styles.cart} onClick={()=>navigateTo("/cart")}>             
-                    <p>2</p>
+                    <p>{noOfCartItems}</p>
                     <span>Cart</span>
                     <img src="https://cdn-icons-png.flaticon.com/128/3737/3737372.png" alt="cart" />
                 </div>

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import { db } from '../../firebase';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import {toast} from "react-toastify";
+import { addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 const url = "https://my-json-server.typicode.com/Harshh-singh/dummy-ecommerce-api/blob/main/products/";
 
 
 const initialState = {
+    totalCartItems:0,
     products:[],
     cartItems:[],
     loading:false,
@@ -41,6 +43,18 @@ const ProductSlice = createSlice({
             state.loading=false;
             state.error=action.payload;
         })
+
+        .addCase(totalCartItemsAsync.fulfilled,(state,action)=>{
+            state.totalCartItems=action.payload;
+            state.loading=false;
+        })
+        .addCase(totalCartItemsAsync.pending,(state)=>{
+            state.loading=true;
+        })
+        .addCase(totalCartItemsAsync.rejected,(state,action)=>{
+            state.error=action.payload
+            state.loading=false;
+        })
     }
 })
 
@@ -62,16 +76,34 @@ export const addToCartAsync = createAsyncThunk(
     "products/addToCart",
     async(product,{rejectWithValue})=>{
         try {
-            const docRef = await addDoc(collection(db, "Cart"), {
-                name:product.name,
-                price: product.price,
-                description:product.description,
-                id:product.id,
-                image:product.image
+            const cart = await getDocs(collection(db,"Cart"));
+            let itemExists = false;
+            cart.forEach((item)=>{
+                if (item.data().id===product.id) {
+                    itemExists=true;
+                    const productId=item.id;
+                    const currentQuantity=item.data().quantity;
+                    const cartItemRef=doc(db,"Cart",productId);
+                     updateDoc(cartItemRef,{
+                        quantity:currentQuantity+1,
+                     })
+                     toast.success("Added to Cart");
+                }
             });
-            console.log(docRef);
+            if(!itemExists){
+                await addDoc(collection(db,"Cart"), {
+                    id:product.id,
+                    description:product.description,
+                    image:product.image,
+                    name:product.name,
+                    price:product.price,
+                    quantity:1
+                })
+                toast.success("Added to Cart");
+            }
+            
         } catch (error) {
-            console.log(rejectWithValue(error));
+            toast.error("Error adding to cart");
             return rejectWithValue(error);
         }
     }
@@ -89,11 +121,25 @@ export const getFromDbAsync = createAsyncThunk(
               });
               return items;
         } catch (error) {
-            console.log(error);
             return rejectWithValue(error);
-
         }
     }   
+)
+// get no of Items in cart
+export const totalCartItemsAsync=createAsyncThunk(
+    "products/totalCartItems",
+    async(_,{rejectWithValue})=>{
+        try {
+            const querySnapshot = await getDocs(collection(db,"Cart"));
+            let noOfItems=0;
+            querySnapshot.forEach((doc)=>{
+                noOfItems+=doc.data().quantity
+            })
+            return noOfItems;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
 )
 
 export const productReducer = ProductSlice.reducer;
