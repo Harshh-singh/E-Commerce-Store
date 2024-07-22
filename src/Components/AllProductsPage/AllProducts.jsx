@@ -6,10 +6,10 @@ import { getProductsAsync } from '../../Redux/Reducers/productReducer';
 
 function AllProducts() {
     const dispatch = useDispatch();
-    const products = useSelector((state)=>state.productReducer.products);
+    const { products } = useSelector((state)=>state.productReducer);
 
     useEffect(()=>{
-        dispatch(getProductsAsync());
+        dispatch(getProductsAsync());     
     },[dispatch]);
 
     return(

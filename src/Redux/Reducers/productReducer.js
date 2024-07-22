@@ -2,16 +2,15 @@ import axios from 'axios';
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import { db } from '../../firebase';
 import {toast} from "react-toastify";
-import { addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 const url = "https://my-json-server.typicode.com/Harshh-singh/dummy-ecommerce-api/blob/main/products/";
-
 
 const initialState = {
     totalCartItems:0,
     products:[],
     cartItems:[],
     loading:false,
-    error:null
+    error:null,
 }
 
 const ProductSlice = createSlice({
@@ -20,6 +19,7 @@ const ProductSlice = createSlice({
     reducers:{},
     extraReducers:builder=>{
         builder
+        // add cases for getProductsAsync
         .addCase(getProductsAsync.fulfilled,(state,action)=>{
             state.products=action.payload;
             state.loading = false;
@@ -31,7 +31,7 @@ const ProductSlice = createSlice({
             state.error=action.payload;
             state.loading=false;
         })
-
+        // add cases for getFromDbAsync
         .addCase(getFromDbAsync.fulfilled,(state,action)=>{
             state.cartItems=action.payload;
             state.loading=false;
@@ -43,7 +43,7 @@ const ProductSlice = createSlice({
             state.loading=false;
             state.error=action.payload;
         })
-
+        // add cases for totalCartItemsAsync
         .addCase(totalCartItemsAsync.fulfilled,(state,action)=>{
             state.totalCartItems=action.payload;
             state.loading=false;
@@ -55,6 +55,30 @@ const ProductSlice = createSlice({
             state.error=action.payload
             state.loading=false;
         })
+        // add cases for removeFromCartAsync
+        .addCase(removeFromCartAsync.fulfilled,(state,action)=>{
+            state.cartItems=state.cartItems.filter(item=>item.id!==action.payload);
+            state.loading=false;
+        })
+        .addCase(removeFromCartAsync.pending,(state)=>{
+            state.loading=true;
+        })
+        .addCase(removeFromCartAsync.rejected,(state, action)=>{
+            state.error = action.payload;
+            state.loading=false;
+        })
+        // add cases for purchaseOrderAsync
+        .addCase(purchaseOrderAsync.fulfilled, (state,action)=>{
+            state.cartItems=[];
+            state.loading=false;
+        })
+        .addCase(purchaseOrderAsync.pending, (state)=>{
+            state.loading=true;
+        })
+        .addCase(purchaseOrderAsync.rejected, (state,action)=>{
+            state.error=action.payload;
+            state.loading=false;
+        })        
     }
 })
 
@@ -137,6 +161,51 @@ export const totalCartItemsAsync=createAsyncThunk(
             })
             return noOfItems;
         } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+// remove a product from cart
+export const removeFromCartAsync = createAsyncThunk(
+    "product/removeFromCart",
+    async(product,{rejectWithValue})=>{
+        try {
+            const cartItems=await getDocs(collection(db,"Cart"));
+            let docId=null;
+            let itemId=null;
+            cartItems.forEach((doc)=>{
+                if (product.id===doc.data().id) {
+                    docId=doc.id;
+                    itemId=doc.data().id;
+                }
+            })
+            if(docId){
+                await deleteDoc(doc(db,"Cart",docId));
+                toast.success("Product removed from Cart");
+                return itemId;
+            }
+        } catch (error) {
+            toast.error(error);
+            return rejectWithValue(error);
+        }
+    }
+);
+
+// purchase cart order
+export const purchaseOrderAsync=createAsyncThunk(
+    "product/purchase",
+    async(_,{rejectWithValue})=>{
+        try {
+            const cart = await getDocs(collection(db,"Cart"));
+            cart.forEach(async (item)=>{
+                await deleteDoc(doc(db,"Cart",item.id));
+            });
+            toast.success("Purchase successful!")
+            return {message:"Purchase successful!"}
+
+        } catch (error) {
+            toast.error(error);
             return rejectWithValue(error);
         }
     }
