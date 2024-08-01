@@ -1,21 +1,28 @@
 import styles from './navbar.module.css';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { totalCartItemsAsync } from '../../Redux/Reducers/productReducer';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 function NavBar() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const noOfCartItems = useSelector((state)=>state.productReducer.totalCartItems);
+    const {cartItems} = useSelector((state)=>state.productReducer);
+    const [noOfCartItems, setNoOfCartItems]=useState(0);
 
+    
     const navigateTo = (link) =>{
         navigate(link);
     };
 
+    // to get total no of cart items
     useEffect(()=>{
-        dispatch(totalCartItemsAsync());
-    },[dispatch]);
+        if(cartItems){
+            let totalCartItems=0;
+            cartItems.map((product)=>(
+                totalCartItems+=product.quantity
+            ))
+            setNoOfCartItems(totalCartItems);
+        }
+    },[cartItems]);
 
     return(
         <>

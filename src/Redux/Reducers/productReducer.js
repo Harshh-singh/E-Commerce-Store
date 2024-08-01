@@ -3,7 +3,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import { db } from '../../firebase';
 import {toast} from "react-toastify";
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
-const url = "https://my-json-server.typicode.com/Harshh-singh/dummy-ecommerce-api/blob/main/products/";
+const url = "https://my-json-server.typicode.com/Harshh-singh/Ecommerce-demo/blob/master/products/";
 
 const initialState = {
     totalCartItems:0,
@@ -11,12 +11,24 @@ const initialState = {
     cartItems:[],
     loading:false,
     error:null,
+    editedProduct:null,
 }
 
 const ProductSlice = createSlice({
     name:"product",
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        // delete product from list
+        deleteProduct:(state,action)=>{
+            const productId = action.payload;
+            state.products = state.products.filter(product=>product.id!==productId);
+            toast.success("Product deleted!!");
+        },
+        // edit product
+        editProduct:(state, action)=>{
+             state.editedProduct=action.payload;
+        }
+    },
     extraReducers:builder=>{
         builder
         // add cases for getProductsAsync
@@ -43,18 +55,6 @@ const ProductSlice = createSlice({
             state.loading=false;
             state.error=action.payload;
         })
-        // add cases for totalCartItemsAsync
-        .addCase(totalCartItemsAsync.fulfilled,(state,action)=>{
-            state.totalCartItems=action.payload;
-            state.loading=false;
-        })
-        .addCase(totalCartItemsAsync.pending,(state)=>{
-            state.loading=true;
-        })
-        .addCase(totalCartItemsAsync.rejected,(state,action)=>{
-            state.error=action.payload
-            state.loading=false;
-        })
         // add cases for removeFromCartAsync
         .addCase(removeFromCartAsync.fulfilled,(state,action)=>{
             state.cartItems=state.cartItems.filter(item=>item.id!==action.payload);
@@ -78,7 +78,18 @@ const ProductSlice = createSlice({
         .addCase(purchaseOrderAsync.rejected, (state,action)=>{
             state.error=action.payload;
             state.loading=false;
-        })        
+        })     
+        // add case to add a new product
+        .addCase(addProductAsync.fulfilled, (state, action)=>{
+            state.products.push(...state.products, action.payload);
+            state.loading=false;
+        })   
+        .addCase(addProductAsync.pending, (state)=>{
+            state.loading=true;
+        })   
+        .addCase(addProductAsync.rejected, (state, action)=>{
+            state.error=action.payload;
+        })   
     }
 })
 
@@ -149,22 +160,6 @@ export const getFromDbAsync = createAsyncThunk(
         }
     }   
 )
-// get no of Items in cart
-export const totalCartItemsAsync=createAsyncThunk(
-    "products/totalCartItems",
-    async(_,{rejectWithValue})=>{
-        try {
-            const querySnapshot = await getDocs(collection(db,"Cart"));
-            let noOfItems=0;
-            querySnapshot.forEach((doc)=>{
-                noOfItems+=doc.data().quantity
-            })
-            return noOfItems;
-        } catch (error) {
-            return rejectWithValue(error);
-        }
-    }
-)
 
 // remove a product from cart
 export const removeFromCartAsync = createAsyncThunk(
@@ -207,6 +202,20 @@ export const purchaseOrderAsync=createAsyncThunk(
         } catch (error) {
             toast.error(error);
             return rejectWithValue(error);
+        }
+    }
+)
+
+// add a new product
+export const addProductAsync=createAsyncThunk(
+    "product/addnew",
+    async(product,{rejectWithValue})=>{
+        try {
+            const res = await axios.post(`${url}`,product);
+            toast.success("Product added!!");
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
         }
     }
 )

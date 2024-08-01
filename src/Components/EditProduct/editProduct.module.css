@@ -1,4 +1,4 @@
-.detailsCard{
+.editCard{
     border: 1px solid black;
     display: flex;
     gap: 1vw;
@@ -13,14 +13,14 @@
     box-shadow: 0 2px 8px 0 rgba(33, 39, 71, 0.4);
     overflow: hidden;
 }
-.detailsCard .imgContainer{
+.editCard .imgContainer{
     height: 80%;
     object-fit: contain;
 }
-.detailsCard .imgContainer img{
+.editCard .imgContainer img{
     height: 100%;
 }
-.detailsCard .aboutProduct{
+.editCard .aboutProduct{
     height: 80%;
     width: 20%;
     display: flex;
@@ -29,37 +29,43 @@
     padding: 0vh 2vh;
     gap: 4vh;
 }
-.detailsCard .aboutProduct .nameContainer h2{
+.editCard .aboutProduct input{
     height: 18%;
     margin-top: 0px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 24px;
+    font-weight: 700;
 }
-.detailsCard .aboutProduct span{
+.editCard .aboutProduct .price input{
+    height: 100%;
+    width:80%;
     font-size: 18px;
+    font-weight: 400;
     color: gray;
 }
-.detailsCard .aboutProduct .editbtn{
+.editCard .aboutProduct .editbtn{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    border: 1px solid gray;
-    background-color: #F0EBE3;
+    background-color: #A8D5BA;
     width: 6vw;
     padding: 1vh;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
-.detailsCard .aboutProduct .editbtn:hover{
+.editCard .aboutProduct .editbtn:hover{
     transform: scale(1.1);
 }
-.detailsCard .aboutProduct .editbtn span{
+.editCard .aboutProduct .editbtn span{
     font-size: 20px;
 }
-.detailsCard .aboutProduct .editbtn img{
+.editCard .aboutProduct .editbtn img{
     height: 20px;
 }
-.detailsCard .productDetails {
+.editCard .productDetails {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -67,27 +73,35 @@
     height: 80%;
     width: 40%;
     font-size: 18px;
+    color: gray
+}
+.editCard .productDetails .description{
+    height: 100%;
+    width: 100%;
+}
+.editCard .productDetails .description textarea{
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
     color: gray;
+    outline: none;
 }
-.detailsCard .productDetails .deleteAddBtn{
-    display: flex;
-    justify-content: space-between;
-}
-.detailsCard .productDetails .deleteAddBtn .btn{
+.editCard .productDetails .btn{
     display: flex;
     gap: 5px;
     justify-content: center;
-    border: 1px solid gray;
-    background-color: #F0EBE3;
+    align-items: center;
+    background-color: #F8B6B4;
+    color: black;
     width: 6vw;
     padding: 1vh;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
-.detailsCard .productDetails .deleteAddBtn .btn:hover{
+.editCard .productDetails  .btn:hover{
     transform: scale(1.1);
 }
-.detailsCard .productDetails .deleteAddBtn .btn img{
+.editCard .productDetails .btn img{
     height: 20px;
 }

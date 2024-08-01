@@ -1,8 +1,18 @@
 .cart{
+    /* height: 90vh; */
     display: flex;
     flex-direction: column;
     margin: 0vh 4vh;
     padding: 2vh 4vh;
+}
+.cart .loader{
+    margin: 30vh auto;
+}
+.cart .emptyCart{
+    height: 86vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cart h1{
     font-family: sans-serif;
